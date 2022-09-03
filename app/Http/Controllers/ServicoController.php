@@ -45,7 +45,7 @@ class ServicoController extends Controller
 
       public function seed() {
 
-        $cidadeId = 1;
+        $cidadeId = 3;
         
         $aventuras = ['Legal','Muito Legal','Imperdível','Emocionante'];
         $nomeServico = "Aventura ";
@@ -60,7 +60,7 @@ class ServicoController extends Controller
           $novoServico->cidade_id = $cidadeId;
           $novoServico->categoria_id = $categoria->id;
           $novoServico->subcategoria_id = $idSubCategoria;
-          $novoServico->prestador_id = rand(1,5);
+          $novoServico->prestador_id = rand(6,10);
           $novoServico->nome = $nomeServico.$aventuras[rand(0,3)];
           $novoServico->descricao_curta = $descricao_curta;
           $novoServico->save();

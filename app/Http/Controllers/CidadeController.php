@@ -33,13 +33,13 @@ class CidadeController extends Controller
             'estado' => $request->estado,
             'imagem' => $imagem_url
           ]);
-  
-          return response()->json($cidade,201); 
+
+          return response()->json($cidade,201);
       }
 
-     
 
-     
+
+
       public function get(Request $request)
      {
         $cidade = $this->cidades->find($request->id);
@@ -50,30 +50,25 @@ class CidadeController extends Controller
 
           $cidade['categorias'] = [];
           $cidade['subcategorias'] = [];
-         
+
           $subcat = [];
           $cat = [];
           // pega os serviços da cidade
           $cidade['servicos'] = Servico::where('cidade_id',$request->id)->with('prestador')->get();
-       
+
           // pega as categorias e subcategorias da cidade
           foreach($cidade['servicos'] as  $servico) {
 
-            $findCat = $this->categorias->find($servico['categoria_id']);
-            $findSubcat = $this->subcategorias->find($servico['subcategoria_id']);
-           
-            
-            if (!in_array($findCat, $cat)) { 
-               array_push($cat,$findCat);
-             }
+                $findCat = $this->categorias->find($servico['categoria_id']);
+                $findSubcat = $this->subcategorias->find($servico['subcategoria_id']);
+                if (!in_array($findCat, $cat)) {
+                    array_push($cat,$findCat);
+                 }
+                 if (!in_array($findSubcat, $subcat)) {
+                    array_push($subcat,$findSubcat);
+                }
 
-             if (!in_array($findSubcat, $subcat)) { 
-              array_push($subcat,$findSubcat);
-            }
-             
-
-            
-          
+          $servico['imagem'] = $findSubcat['imagem'];
           }
 
           $cidade['subcategorias']=$subcat;
@@ -81,9 +76,9 @@ class CidadeController extends Controller
         }
 
 
-          return response()->json($cidade,200);   
+          return response()->json($cidade,200);
         }
- 
-     
+
+
 
 }

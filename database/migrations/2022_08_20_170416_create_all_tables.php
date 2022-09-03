@@ -59,6 +59,7 @@ return new class extends Migration
             $table->unsignedBigInteger('prestador_id');
             $table->string('nome');
             $table->string('descricao_curta');
+            //$table->boolean('destaque');
             $table->timestamps();
             // cria o relacionamento com a tabela categorias
             $table->foreign('categoria_id')->references('id')->on('categorias');
@@ -70,7 +71,7 @@ return new class extends Migration
             $table->foreign('prestador_id')->references('id')->on('prestadores');
         });
 
-       
+
 
 
 

@@ -9,4 +9,9 @@ class Subcategoria extends Model
 {
     use HasFactory;
     protected $fillable = ['nome','imagem','categoria_id'];
+
+    public function servicos(){
+        // uma cidade pode ter 0 ou muitas categorias
+        return $this->hasMany('App\Models\Servico');
+    }
 }

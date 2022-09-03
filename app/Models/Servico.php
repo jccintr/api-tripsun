@@ -13,4 +13,8 @@ class Servico extends Model
     public function prestador(){
         return $this->belongsTo('App\Models\Prestador');
     }
+
+    public function subcategorias(){
+        return $this->belongsTo('App\Models\Subcategoria');
+    }
 }
