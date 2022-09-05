@@ -57,3 +57,4 @@ Route::post('/prestadores', [PrestadorController::class, 'add']);
 Route::get('/servicos', [ServicoController::class, 'list']);
 Route::post('/servicos', [ServicoController::class, 'add']);
 Route::post('/seed', [ServicoController::class, 'seed']);
+Route::post('/geo', [ServicoController::class, 'searchGeo']);
