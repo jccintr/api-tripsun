@@ -77,21 +77,77 @@ class ServicoController extends Controller
 
       }
 
-      public function searchGeo(Request $request) {
+
+      public function getCityByCoords(Request $request){
+
         $key = env('MAPS_KEY', null);
-        $city = $request->city;
-        $city = urlencode($city);
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$city.'&key='.$key;
+        $lat = $request->latitude;
+        $lng = $request->longitude;
+        $coord = urlencode($lat.",".$lng);
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.$coord.'&key='.$key;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $res = curl_exec($ch);
         curl_close($ch);
 
+        $data = json_decode($res,true);
+        $logradouro = $data['results'][0]['address_components'][1]['short_name'];
+        $numero = $data['results'][0]['address_components'][0]['short_name'];
+        $nome = $data['results'][0]['address_components'][3]['long_name'];
+        $estado = $data['results'][0]['address_components'][4]['short_name'];
+        $cep = $data['results'][0]['address_components'][6]['short_name'];
+        $ret = [];
+        $ret['nome'] = $nome;
+        $ret['estado'] = $estado;
+        $ret['cep'] = $cep;
+        $ret['logradouro'] = $logradouro;
+        $ret['numero'] = $numero;
+
+
+
+          return response()->json($ret,200);
+
+      }
+
+      public function searchGeo(Request $request) {
+        $key = env('MAPS_KEY', null);
+
+        $lat = $request->latitude;
+        $lng = $request->longitude;
+
+        $coord = urlencode($lat.",".$lng);
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$coord.'&key='.$key;
+
+       /*
+        $city = $request->city;
+        $city = urlencode($city);
+        if(!empty($city)){
+              $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$city.'&key='.$key;
+        }
+        */
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $res = curl_exec($ch);
+        curl_close($ch);
         return json_decode($res, true);
     }
 
 
+    public function searchGeo2(Request $request) {
+      $key = env('MAPS_KEY', null);
+      $city = $request->city;
+      $city = urlencode($city);
+      $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$city.'&key='.$key;
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      $res = curl_exec($ch);
+      curl_close($ch);
+      return json_decode($res, true);
+  }
+
+
 }
-
-

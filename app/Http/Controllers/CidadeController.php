@@ -64,6 +64,7 @@ class CidadeController extends Controller
                 $findCat = $this->categorias->find($servico['categoria_id']);
                 $servico['categoria'] = $findCat['nome'];
                 $findSubcat = $this->subcategorias->find($servico['subcategoria_id']);
+                $servico['subcategoria'] = $findSubcat['nome'];
                 if (!in_array($findCat, $cat)) {
                     array_push($cat,$findCat);
                  }
@@ -72,12 +73,13 @@ class CidadeController extends Controller
                 }
           $servicoLatitude = (float)$servico['latitude'];
           $servicoLongitude = (float)$servico['longitude'];
-        
+
           $servico['imagem'] = $findSubcat['imagem'];
+          $servico['marcador'] = $findSubcat['marcador'];
           $servico['distancia'] =  round(sqrt(pow(69.1 * ($servicoLatitude - $lat), 2) + pow(69.1 * ($lng - $servicoLongitude) * cos($servicoLatitude / 57.3), 2)),1);
-         
-        
-          $servico['preco'] = "50,00";
+
+
+          $servico['preco'] = rand(3,9).rand(0,9).',00';
           }
 
           $cidade['subcategorias']=$subcat;
@@ -87,6 +89,10 @@ class CidadeController extends Controller
 
           return response()->json($cidade,200);
         }
+
+
+
+      
 
 
 

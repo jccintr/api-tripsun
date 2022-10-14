@@ -36,6 +36,7 @@ return new class extends Migration
             $table->unsignedBigInteger('categoria_id');
             $table->string('nome');
             $table->string('imagem');
+            //$table->string('marcador');
             $table->timestamps();
              // cria o relacionamento com a tabela categorias
              $table->foreign('categoria_id')->references('id')->on('categorias');
@@ -59,10 +60,21 @@ return new class extends Migration
             $table->unsignedBigInteger('prestador_id');
             $table->string('nome');
             $table->string('descricao_curta');
-            //$table->boolean('destaque')->default(false);
+            //$table->boolean('destaque')->default(false); 
             //$table->float('stars')->default(0);
             //$table->string('latitude')->nullable();
             //$table->string('longitude')->nullable();
+             //******************************************
+             //$table->string('atrativos')->nullable();
+             //$table->string('duracao')->nullable();
+             //$table->string('itens_fornecidos')->nullable();
+             //$table->string('itens_obrigatorios')->nullable();
+             //$table->string('horario')->nullable();
+             //$table->string('endereco')->nullable();
+             //$table->string('ponto_encontro')->nullable();
+             //$table->integer('valor')->default(0);
+          
+
             $table->timestamps();
             // cria o relacionamento com a tabela categorias
             $table->foreign('categoria_id')->references('id')->on('categorias');
