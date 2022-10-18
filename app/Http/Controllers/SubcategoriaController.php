@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subcategoria;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 class SubcategoriaController extends Controller
@@ -14,9 +15,14 @@ class SubcategoriaController extends Controller
 
       public function list()
       {
-          $subcategorias = $this->subcategorias->get();
-          //$categorias_ordenado = $categorias->sortBy('nome');
-          return response()->json($subcategorias->values()->all(),200);
+
+        $subcategorias = $this->subcategorias->get();
+        foreach ($subcategorias as $subcategoria) {
+            $categoria = Categoria::find($subcategoria['categoria_id']);
+            $subcategoria['nome_categoria'] = $categoria['nome'];
+        }
+        return response()->json($subcategorias->values()->all(),200);
+
       }
 
       public function add(Request $request)
@@ -28,7 +34,7 @@ class SubcategoriaController extends Controller
             'imagem' => $imagem_url,
             'categoria_id' => $request->categoria_id
           ]);
-  
-          return response()->json($categoria,201); 
+
+          return response()->json($categoria,201);
       }
 }

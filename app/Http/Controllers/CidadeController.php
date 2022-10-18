@@ -26,15 +26,28 @@ class CidadeController extends Controller
 
       public function add(Request $request)
       {
+        $array = ['erro'=>''];
         $imagem = $request->file('imagem');
-        $imagem_url = $imagem->store('imagens/cidades','public');
+        $nome = $request->nome;
+        $estado = $request->estado;
+
+
+        if($imagem && $nome && $estado) {
+          $imagem_url = $imagem->store('imagens/cidades','public');
           $cidade = $this->cidades->create([
-            'nome' => $request->nome,
-            'estado' => $request->estado,
+            'nome' => $nome,
+            'estado' => $estado,
             'imagem' => $imagem_url
           ]);
+            return response()->json($cidade,201);
+        } else {
+          $array['erro'] = "Requisição mal formatada";
+          return response()->json($array,400);
+        }
 
-          return response()->json($cidade,201);
+
+
+
       }
 
 
@@ -92,7 +105,7 @@ class CidadeController extends Controller
 
 
 
-      
+
 
 
 

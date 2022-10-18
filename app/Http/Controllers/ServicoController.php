@@ -21,6 +21,7 @@ class ServicoController extends Controller
 
       public function list()
       {
+
           $servicos = $this->servicos->with('prestador')->get();
           //$categorias_ordenado = $categorias->sortBy('nome');
           return response()->json($servicos->values()->all(),200);
