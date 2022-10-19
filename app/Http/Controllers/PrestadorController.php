@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prestador;
+use App\Models\Cidade;
 use Illuminate\Http\Request;
 
 class PrestadorController extends Controller
@@ -15,7 +16,11 @@ class PrestadorController extends Controller
       public function list()
       {
           $prestadores = $this->prestadores->get();
-          //$categorias_ordenado = $categorias->sortBy('nome');
+            foreach ($prestadores as $prestador) {
+              $cidade = Cidade::find($prestador['cidade_id']);
+              $prestador['nome_cidade'] = $cidade['nome'];
+            }
+
           return response()->json($prestadores->values()->all(),200);
       }
 
@@ -28,7 +33,7 @@ class PrestadorController extends Controller
             'cidade_id' => $request->cidade_id,
             'logotipo' => $imagem_url
           ]);
-  
-          return response()->json($prestador,201); 
+
+          return response()->json($prestador,201);
       }
 }
