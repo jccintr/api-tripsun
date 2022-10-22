@@ -42,6 +42,7 @@ Route::controller(AuthController::class)->group(function () {
 
 
 Route::post('/cidade', [CidadeController::class, 'get']);
+Route::get('/cidade/{id}', [CidadeController::class, 'getById']);
 Route::get('/cidades', [CidadeController::class, 'list']);
 Route::post('/cidades', [CidadeController::class, 'add']);
 

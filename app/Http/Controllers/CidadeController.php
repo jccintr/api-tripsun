@@ -51,7 +51,7 @@ class CidadeController extends Controller
       }
 
 
-
+//***********************************************************
 
       public function get(Request $request)
      {
@@ -104,6 +104,25 @@ class CidadeController extends Controller
         }
 
 
+//*******************************************************************
+        public function getById($id)
+       {
+
+         //$cidade = $this->cidades->find($request->id);
+
+         $cidade = Cidade::find($id);
+
+         if ($cidade === null){
+            return response()->json(['erro'=>'Cidade não encontrada'],404);
+         } else {
+
+              return response()->json($cidade,200);
+         }
+
+
+
+
+       }
 
 
 
