@@ -40,21 +40,26 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 
-
+// Cidade Controller ====================================================
 Route::post('/cidade', [CidadeController::class, 'get']);
 Route::get('/cidade/{id}', [CidadeController::class, 'getById']);
+Route::post('/cidade/{id}/update', [CidadeController::class, 'update']);
 Route::get('/cidades', [CidadeController::class, 'list']);
 Route::post('/cidades', [CidadeController::class, 'add']);
-
+// Categoria Controller ================================================
 Route::get('/categorias', [CategoriaController::class, 'list']);
 Route::post('/categorias', [CategoriaController::class, 'add']);
-
+Route::get('/categoria/{id}', [CategoriaController::class, 'getById']);
+Route::post('/categoria/{id}/update', [CategoriaController::class, 'update']);
+// Subcategoria Controller ==============================================
 Route::get('/subcategorias', [SubcategoriaController::class, 'list']);
 Route::post('/subcategorias', [SubcategoriaController::class, 'add']);
-
+Route::get('/subcategoria/{id}', [SubcategoriaController::class, 'getById']);
+Route::post('/subcategoria/{id}/update', [SubcategoriaController::class, 'update']);
+// Prestadores Controller ===================================================
 Route::get('/prestadores', [PrestadorController::class, 'list']);
 Route::post('/prestadores', [PrestadorController::class, 'add']);
-
+// Serviços Controller =====================================================
 Route::get('/servicos', [ServicoController::class, 'list']);
 Route::post('/servicos', [ServicoController::class, 'add']);
 Route::post('/seed', [ServicoController::class, 'seed']);

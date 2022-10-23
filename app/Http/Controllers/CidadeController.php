@@ -8,6 +8,7 @@ use App\Models\Categoria;
 use App\Models\Subcategoria;
 use App\Models\Prestador;
 use App\Models\Servico;
+use Illuminate\Support\Facades\Storage;
 
 class CidadeController extends Controller
 {
@@ -17,20 +18,19 @@ class CidadeController extends Controller
         $this->subcategorias = $subcategorias;
       }
 
-
+//********************************************************
       public function list()
       {
           $cidades = $this->cidades->get();
           return response()->json($cidades->values()->all(),200);
       }
-
+//********************************************************
       public function add(Request $request)
       {
         $array = ['erro'=>''];
         $imagem = $request->file('imagem');
         $nome = $request->nome;
         $estado = $request->estado;
-
 
         if($imagem && $nome && $estado) {
           $imagem_url = $imagem->store('imagens/cidades','public');
@@ -44,15 +44,8 @@ class CidadeController extends Controller
           $array['erro'] = "Requisição mal formatada";
           return response()->json($array,400);
         }
-
-
-
-
-      }
-
-
+  }
 //***********************************************************
-
       public function get(Request $request)
      {
         $cidade = $this->cidades->find($request->id);
@@ -102,30 +95,40 @@ class CidadeController extends Controller
 
           return response()->json($cidade,200);
         }
-
-
 //*******************************************************************
         public function getById($id)
        {
-
-         //$cidade = $this->cidades->find($request->id);
-
-         $cidade = Cidade::find($id);
+          $cidade = Cidade::find($id);
 
          if ($cidade === null){
             return response()->json(['erro'=>'Cidade não encontrada'],404);
          } else {
-
-              return response()->json($cidade,200);
+            return response()->json($cidade,200);
          }
+   }
+//******************************************************************
+  public function update($id,Request $request){
 
+    $imagem = $request->file('imagem');
+    $nome = $request->nome;
+    $estado = $request->estado;
 
+    if($nome && $estado) {
+        $cidade = Cidade::find($id);
+        $cidade->nome = $nome;
+        $cidade->estado = $estado;
+        if($imagem){
+          Storage::disk('public')->delete($cidade->imagem);
+          $imagem_url = $imagem->store('imagens/cidades','public');
+          $cidade->imagem = $imagem_url;
+        }
+        $cidade->save();
+        return response()->json($cidade,200);
+    } else {
+      $array['erro'] = "Campos obrigatórios não informados.";
+      return response()->json($array,400);
+    }
 
-
-       }
-
-
-
-
+  }
 
 }
