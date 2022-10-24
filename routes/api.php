@@ -59,6 +59,8 @@ Route::post('/subcategoria/{id}/update', [SubcategoriaController::class, 'update
 // Prestadores Controller ===================================================
 Route::get('/prestadores', [PrestadorController::class, 'list']);
 Route::post('/prestadores', [PrestadorController::class, 'add']);
+Route::get('/prestador/{id}', [PrestadorController::class, 'getById']);
+Route::post('/prestador/{id}/update', [PrestadorController::class, 'update']);
 // Serviços Controller =====================================================
 Route::get('/servicos', [ServicoController::class, 'list']);
 Route::post('/servicos', [ServicoController::class, 'add']);

@@ -50,6 +50,14 @@ return new class extends Migration
             $table->timestamps();
             // cria o relacionamento com a tabela cidades
             $table->foreign('cidade_id')->references('id')->on('cidades');
+            //*==========================================================
+            //$table->string('endereco')->nullable();
+            //$table->string('bairro')->nullable();
+            //$table->string('cep')->nullable();
+            //$table->string('contato')->nullable();
+            //$table->string('telefone')->nullable();
+            //$table->string('cnpj')->nullable();
+            //$table->string('ie')->nullable();
         });
 
         Schema::create('servicos', function (Blueprint $table) {
@@ -60,7 +68,7 @@ return new class extends Migration
             $table->unsignedBigInteger('prestador_id');
             $table->string('nome');
             $table->string('descricao_curta');
-            //$table->boolean('destaque')->default(false); 
+            //$table->boolean('destaque')->default(false);
             //$table->float('stars')->default(0);
             //$table->string('latitude')->nullable();
             //$table->string('longitude')->nullable();
@@ -73,7 +81,7 @@ return new class extends Migration
              //$table->string('endereco')->nullable();
              //$table->string('ponto_encontro')->nullable();
              //$table->integer('valor')->default(0);
-          
+
 
             $table->timestamps();
             // cria o relacionamento com a tabela categorias
