@@ -18,32 +18,38 @@ class ServicoController extends Controller
         $this->prestadores = $prestadores;
       }
 
+//===========================================================
+// Lista todas os Serviços GET
+//===========================================================
+public function list()
+{
 
-      public function list()
-      {
+    $servicos = $this->servicos->with('prestador')->get();
+    //$categorias_ordenado = $categorias->sortBy('nome');
+    return response()->json($servicos->values()->all(),200);
+}
+//============================================================
+// Adiciona uma subcategoria POST
+//============================================================
+public function add(Request $request)
+{
 
-          $servicos = $this->servicos->with('prestador')->get();
-          //$categorias_ordenado = $categorias->sortBy('nome');
-          return response()->json($servicos->values()->all(),200);
-      }
+    $servico = $this->servicos->create([
+      'categoria_id' => $request->categoria_id,
+      'subcategoria_id' => $request->subcategoria_id,
+      'cidade_id' => $request->cidade_id,
+      'prestador_id' => $request->prestador_id,
+      'nome' => $request->nome,
+      'descricao_curta' => $request->descricao_curta
+    ]);
 
-      public function add(Request $request)
-      {
-
-          $servico = $this->servicos->create([
-            'categoria_id' => $request->categoria_id,
-            'subcategoria_id' => $request->subcategoria_id,
-            'cidade_id' => $request->cidade_id,
-            'prestador_id' => $request->prestador_id,
-            'nome' => $request->nome,
-            'descricao_curta' => $request->descricao_curta
-          ]);
-
-          return response()->json($servico,201);
-      }
-
+    return response()->json($servico,201);
+}
 
 
+//=========================================
+// outros
+//=========================================
       public function seed() {
 
         $cidadeId = 3;
