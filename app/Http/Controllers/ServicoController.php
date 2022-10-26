@@ -66,6 +66,7 @@ if($categoria && $subcategoria && $cidade && $prestador && $nome && $latitude &&
     'atrativos' => $request->atrativos,
     'horario' => $request->horario,
     'duracao' => $request-> duracao,
+    'percentual_plataforma' => $request->percentual_plataforma,
     'valor' => $request->valor,
     'stars' => 5.0
   ]);
@@ -120,6 +121,7 @@ public function update($id,Request $request){
       $servico->itens_obrigatorios = $request->itens_obrigatorios;
       $servico->horario = $request->horario;
       $servico->ponto_encontro = $request->ponto_encontro;
+      $servico->percentual_plataforma = $request->percentual_plataforma;
       $servico->valor = $request->valor;
       $servico->destaque = $request->destaque;
       $servico->latitude = $latitude;

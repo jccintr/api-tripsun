@@ -26,7 +26,8 @@ class Servico extends Model
     'latitude',
     'longitude',
     'destaque',
-    'stars'
+    'stars',
+    'percentual_plataforma'
   ];
 
     public function prestador(){
