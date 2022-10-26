@@ -22,7 +22,11 @@ class Servico extends Model
     'horario',
     'endereco',
     'ponto_encontro',
-    'valor'
+    'valor',
+    'latitude',
+    'longitude',
+    'destaque',
+    'stars'
   ];
 
     public function prestador(){

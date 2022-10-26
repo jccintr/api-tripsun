@@ -23,30 +23,115 @@ class ServicoController extends Controller
 //===========================================================
 public function list()
 {
-
     $servicos = $this->servicos->with('prestador')->get();
+
+    foreach ($servicos as $servico) {
+      $cidade = Cidade::find($servico['cidade_id']);
+      $servico['nome_cidade'] = $cidade['nome'];
+    }
+
     //$categorias_ordenado = $categorias->sortBy('nome');
     return response()->json($servicos->values()->all(),200);
 }
 //============================================================
-// Adiciona uma subcategoria POST
+// Adiciona um Serviço POST
 //============================================================
 public function add(Request $request)
 {
 
-    $servico = $this->servicos->create([
-      'categoria_id' => $request->categoria_id,
-      'subcategoria_id' => $request->subcategoria_id,
-      'cidade_id' => $request->cidade_id,
-      'prestador_id' => $request->prestador_id,
-      'nome' => $request->nome,
-      'descricao_curta' => $request->descricao_curta
-    ]);
+ $categoria = $request->categoria_id;
+ $subcategoria = $request->subcategoria_id;
+ $cidade = $request->cidade_id;
+ $prestador = $request->prestador_id;
+ $nome = $request->nome;
+ $latitude = $request->latitude;
+ $longitude = $request->longitude;
 
-    return response()->json($servico,201);
+if($categoria && $subcategoria && $cidade && $prestador && $nome && $latitude && $longitude){
+
+  $servico = $this->servicos->create([
+    'nome' => $nome,
+    'prestador_id' => $prestador,
+    'categoria_id' => $categoria,
+    'subcategoria_id' => $subcategoria,
+    'cidade_id' => $cidade,
+    'destaque' => $request->destaque,
+    'endereco' => $request->endereco,
+    'ponto_encontro'=> $request->ponto_encontro,
+    'latitude' => $latitude,
+    'longitude' => $longitude,
+    'descricao_curta' => $request->descricao_curta,
+    'itens_fornecidos' => $request->itens_fornecidos,
+    'itens_obrigatorios' => $request->itens_obrigatorios,
+    'atrativos' => $request->atrativos,
+    'horario' => $request->horario,
+    'duracao' => $request-> duracao,
+    'valor' => $request->valor,
+    'stars' => 5.0
+  ]);
+  return response()->json($servico,201);
+
+}else {
+  $array['erro'] = "Requisição mal formatada. ". $categoria;
+  return response()->json($array,400);
 }
 
 
+}
+
+//================================================================
+// Recupera um Serviço por Id GET
+//================================================================
+public function getById($id) {
+
+     $servico = Servico::find($id);
+
+     if ($servico === null){
+        return response()->json(['erro'=>'Serviço não encontrado'],404);
+     } else {
+        return response()->json($servico,200);
+     }
+
+}
+//================================================================
+// Atualiza um Prestador POST
+//================================================================
+public function update($id,Request $request){
+
+  $categoria = $request->categoria_id;
+  $subcategoria = $request->subcategoria_id;
+  $cidade = $request->cidade_id;
+  $prestador = $request->prestador_id;
+  $nome = $request->nome;
+  $latitude = $request->latitude;
+  $longitude = $request->longitude;
+
+  if($categoria && $subcategoria && $cidade && $prestador && $nome && $latitude && $longitude){
+      $servico = Servico::find($id);
+      $servico->nome = $nome;
+      $servico->cidade_id = $cidade;
+      $servico->categoria_id = $categoria;
+      $servico->subcategoria_id = $subcategoria;
+      $servico->prestador_id = $prestador;
+      $servico->descricao_curta = $request->descricao_curta;
+      $servico->atrativos = $request->atrativos;
+      $servico->duracao = $request-> duracao;
+      $servico->itens_fornecidos = $request->itens_fornecidos;
+      $servico->itens_obrigatorios = $request->itens_obrigatorios;
+      $servico->horario = $request->horario;
+      $servico->ponto_encontro = $request->ponto_encontro;
+      $servico->valor = $request->valor;
+      $servico->destaque = $request->destaque;
+      $servico->latitude = $latitude;
+      $servico->longitude = $longitude;
+      $servico->endereco = $request->endereco;
+      $servico->save();
+      return response()->json($servico,200);
+  } else {
+     $array['erro'] = "Campos obrigatórios não informados.";
+     return response()->json($array,400);
+  }
+}
 //=========================================
 // outros
 //=========================================

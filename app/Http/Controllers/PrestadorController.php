@@ -75,7 +75,7 @@ class PrestadorController extends Controller
    }
   }
 //================================================================
-// Atualiza uma categoria POST
+// Atualiza um Prestador POST
 //================================================================
   public function update($id,Request $request){
 

@@ -64,5 +64,7 @@ Route::post('/prestador/{id}/update', [PrestadorController::class, 'update']);
 // Serviços Controller =====================================================
 Route::get('/servicos', [ServicoController::class, 'list']);
 Route::post('/servicos', [ServicoController::class, 'add']);
+Route::get('/servico/{id}', [ServicoController::class, 'getById']);
+Route::post('/servico/{id}/update', [ServicoController::class, 'update']);
 Route::post('/seed', [ServicoController::class, 'seed']);
 Route::post('/geo', [ServicoController::class, 'getCityByCoords']);
