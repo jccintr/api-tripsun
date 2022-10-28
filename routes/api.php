@@ -36,6 +36,9 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
+    Route::get('usuarios', 'list');
+    Route::get('usuario/{id}', 'getById');
+    Route::post('usuario/{id}/update','update');
 
 });
 
