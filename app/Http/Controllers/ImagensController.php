@@ -10,18 +10,18 @@ use Illuminate\Support\Facades\Storage;
 
 class ImagensController extends Controller
 {
-   
+
 
  //================================================================
 // Adiciona uma Imagem POST
-//================================================================ 
-    
+//================================================================
+
     public function add(Request $request)
     {
       $array = ['erro'=>''];
       $imagem = $request->file('imagem');
       $servico_id = $request->servico_id;
-     
+
 
       if($imagem && $servico_id) {
         $imagem_url = $imagem->store('imagens/servicos','public');
@@ -29,7 +29,7 @@ class ImagensController extends Controller
             'servico_id' => $servico_id,
             'imagem' => $imagem_url
         ]);
-    
+
           return response()->json($retorno,201);
       } else {
         $array['erro'] = "Requisição mal formatada";
@@ -45,20 +45,32 @@ public function listByServico($idServico)
 
 {
 
-$imagens = Imagens::where('servico_id',$idServico)->get();
-
-if ($imagens) {
-
-  return response()->json($imagens,200);
-
-} else {
-
- 
-  return response()->json(['erro'=>'Imagens não encontradas'],404);
+  $imagens = Imagens::where('servico_id',$idServico)->get();
+  if ($imagens) {
+    return response()->json($imagens,200);
+  } else {
+    return response()->json(['erro'=>'Imagens não encontradas'],404);
+  }
 
 }
 
-}
+//================================================================
+// Delete uma imagem DELETE
+//================================================================
+
+   public function delete($id)
+   {
+       $imagem = Imagens::find($id);
+       if($imagem){
+            Storage::disk('public')->delete($imagem->imagem);
+            $imagem->delete();
+            return response()->json(['msg'=>'Imagem removida com sucesso'],200);
+       }
+        else {
+          return response()->json(['erro'=>'Imagem não encontrada'],404);
+        }
+
+   }
 
 
 }

@@ -75,3 +75,4 @@ Route::post('/geo', [ServicoController::class, 'getCityByCoords']);
 // Imagens Controller =====================================================
 Route::post('/imagens', [ImagensController::class, 'add']);
 Route::get('/imagens/{idServico}', [ImagensController::class, 'listByServico']);
+Route::post('/imagens/delete/{id}', [ImagensController::class, 'delete']);
