@@ -8,6 +8,7 @@ use App\Http\Controllers\SubcategoriaController;
 use App\Http\Controllers\PrestadorController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\CidadeController;
+use App\Http\Controllers\ImagensController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,3 +72,6 @@ Route::get('/servico/{id}', [ServicoController::class, 'getById']);
 Route::post('/servico/{id}/update', [ServicoController::class, 'update']);
 Route::post('/seed', [ServicoController::class, 'seed']);
 Route::post('/geo', [ServicoController::class, 'getCityByCoords']);
+// Imagens Controller =====================================================
+Route::post('/imagens', [ImagensController::class, 'add']);
+Route::get('/imagens/{idServico}', [ImagensController::class, 'listByServico']);
