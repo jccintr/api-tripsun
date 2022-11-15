@@ -170,8 +170,7 @@ public function update($id,Request $request){
         return response()->json($retorno,201);
 
       }
-
-
+//============================================================
       public function getCityByCoords(Request $request){
 
         $key = env('MAPS_KEY', null);
@@ -198,12 +197,10 @@ public function update($id,Request $request){
         $ret['logradouro'] = $logradouro;
         $ret['numero'] = $numero;
 
-
-
-          return response()->json($ret,200);
+        return response()->json($ret,200);
 
       }
-
+//=====================================================================
       public function searchGeo(Request $request) {
         $key = env('MAPS_KEY', null);
 
@@ -229,7 +226,7 @@ public function update($id,Request $request){
         return json_decode($res, true);
     }
 
-
+//================================================================
     public function searchGeo2(Request $request) {
       $key = env('MAPS_KEY', null);
       $city = $request->city;

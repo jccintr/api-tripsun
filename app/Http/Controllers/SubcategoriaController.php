@@ -35,9 +35,14 @@ class SubcategoriaController extends Controller
   {
       $imagem = $request->file('imagem');
       $imagem_url = $imagem->store('imagens/subcategorias','public');
+
+      $marcador = $request->file('marcador');
+      $marcador_url = $marcador->store('imagens/marcadores','public');
+
       $categoria = $this->subcategorias->create([
         'nome' => $request->nome,
         'imagem' => $imagem_url,
+        'marcador' => $marcador_url,
         'categoria_id' => $request->categoria_id
       ]);
 
@@ -62,6 +67,7 @@ public function getById($id)
 public function update($id,Request $request){
 
   $imagem = $request->file('imagem');
+  $marcador = $request->file('marcador');
   $nome = $request->nome;
   $idCategoria = $request->categoria_id;
 
@@ -73,6 +79,11 @@ public function update($id,Request $request){
         Storage::disk('public')->delete($subcategoria->imagem);
         $imagem_url = $imagem->store('imagens/subcategorias','public');
         $subcategoria->imagem = $imagem_url;
+      }
+      if($marcador){
+        Storage::disk('public')->delete($subcategoria->marcador);
+        $marcador_url = $imagem->store('imagens/marcadores','public');
+        $subcategoria->marcador = $marcador_url;
       }
       $subcategoria->save();
       return response()->json($subcategoria,200);
