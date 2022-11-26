@@ -9,6 +9,7 @@ use App\Http\Controllers\PrestadorController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\ImagensController;
+use App\Http\Controllers\HorariosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,3 +77,7 @@ Route::post('/geo', [ServicoController::class, 'getCityByCoords']);
 Route::post('/imagens', [ImagensController::class, 'add']);
 Route::get('/imagens/{idServico}', [ImagensController::class, 'listByServico']);
 Route::post('/imagens/delete/{id}', [ImagensController::class, 'delete']);
+// Horarios Controller =====================================================
+Route::post('/horarios', [HorariosController::class, 'add']);
+Route::get('/horarios/{idServico}', [HorariosController::class, 'listByServico']);
+//Route::post('/imagens/delete/{id}', [ImagensController::class, 'delete']);
