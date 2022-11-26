@@ -29,12 +29,12 @@ public function add(Request $request)
   $mes = ($mes < 10) ? '0'.$mes : $mes;
 
   $data = $ano.'-'.$mes.'-'.$dia;
- 
+
   if(checkdate( $mes,$dia,$ano)) {  // data válida
 
     $horarios = Horario::select()->where('servico_id', $servico_id)->where('data', $data)->where('hora',$hora)->count();;
     $data_atual = date('Y-m-d');
-  
+
     if($data < $data_atual){
         $array['erro'] = "Data inferior a data atual.";
         return response()->json($array,400);
@@ -55,7 +55,7 @@ public function add(Request $request)
         $array['erro'] = "Horário já cadastrado";
         return response()->json($array,400);
     }
-   
+
 
   } else {
         $array['erro'] = "Data inválida";
@@ -73,7 +73,7 @@ public function listByServico($idServico)
 
 {
 
-  $horarios = Horario::where('servico_id',$idServico)->get();
+  $horarios = Horario::where('servico_id',$idServico)->orderBy('data')->get();
   if ($horarios) {
     return response()->json($horarios,200);
   } else {
@@ -82,5 +82,22 @@ public function listByServico($idServico)
 
 }
 
+//===============================================================
+// Recupera os horarios de uma Determinada Data GET
+//================================================================
+public function listByDay($idServico,$data)
+
+{
+
+
+$horarios = Horario::where('servico_id',$idServico)->where('data',$data)->orderBy('hora')->get();
+ if ($horarios) {
+    return response()->json($horarios,200);
+  } else {
+    return response()->json(['erro'=>'Horarios não encontradas'],404);
+  }
+
+
+}
 
 }

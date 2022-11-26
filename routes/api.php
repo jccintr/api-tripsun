@@ -80,4 +80,5 @@ Route::post('/imagens/delete/{id}', [ImagensController::class, 'delete']);
 // Horarios Controller =====================================================
 Route::post('/horarios', [HorariosController::class, 'add']);
 Route::get('/horarios/{idServico}', [HorariosController::class, 'listByServico']);
+Route::get('/horarios/{idServico}/{data}', [HorariosController::class, 'listByDay']);
 //Route::post('/imagens/delete/{id}', [ImagensController::class, 'delete']);
