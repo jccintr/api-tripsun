@@ -147,7 +147,17 @@ public function update($id,Request $request){
         $nomeServico = "Aventura ";
         $descricao_curta = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-        for($i=0;$i<40;$i++) {
+        $atrativos =  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'; 
+        $duracao = rand(1,3).'h';   
+        $itens_fornecidos = "item 1, item 2, item 3...";
+        $itens_obrigatorios = "item obrigatório 1, item obrigatório 2";
+        $horario = rand(9,16).'h';
+        $endereco = "Rua x, 345 - Vila Maria";
+        $ponto_encontro = "Avenida Y, 321 - Centro";
+        $valor = rand(1,9).'000';
+        
+
+        for($i=0;$i<15;$i++) {
 
           $novoServico = new Servico();
           $idSubCategoria = rand(2,16);
@@ -163,6 +173,16 @@ public function update($id,Request $request){
           $novoServico->destaque = false;
           $novoServico->latitude =  $baseLatitude.rand(0,9).'30907';
           $novoServico->longitude = $baseLongitude.rand(0,9).'82795';
+
+          $novoServico->atrativos = $atrativos;
+          $novoServico->duracao = $duracao;
+          $novoServico->itens_fornecidos = $itens_fornecidos;
+          $novoServico->itens_obrigatorios = $itens_obrigatorios;
+          $novoServico->horario = $horario;
+          $novoServico->endereco = $endereco;
+          $novoServico->ponto_encontro = $ponto_encontro;
+          $novoServico->valor = $valor;
+
           $novoServico->save();
 
         }
