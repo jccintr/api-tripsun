@@ -23,9 +23,13 @@ class ServicoController extends Controller
 //===========================================================
 public function list()
 {
-    $servicos = $this->servicos->with('prestador')->get();
+
+    $servicos = Servico::orderBy('nome')->with('prestador')->get();
+  //  $servicos = $this->servicos->with('prestador')->get();
+
 
     foreach ($servicos as $servico) {
+      $servico->valor = $servico->valor / 100;
       $cidade = Cidade::find($servico['cidade_id']);
       $servico['nome_cidade'] = $cidade['nome'];
     }
@@ -88,8 +92,10 @@ public function getById($id) {
      $servico = Servico::find($id);
 
      if ($servico === null){
+
         return response()->json(['erro'=>'Serviço não encontrado'],404);
      } else {
+        $servico->valor = $servico->valor / 100;
         return response()->json($servico,200);
      }
 
@@ -122,7 +128,7 @@ public function update($id,Request $request){
       $servico->horario = $request->horario;
       $servico->ponto_encontro = $request->ponto_encontro;
       $servico->percentual_plataforma = $request->percentual_plataforma;
-      $servico->valor = $request->valor;
+      $servico->valor = $request->valor * 100;
       $servico->destaque = $request->destaque;
       $servico->latitude = $latitude;
       $servico->longitude = $longitude;
@@ -139,25 +145,35 @@ public function update($id,Request $request){
 //=========================================
       public function seed() {
 
-        $cidadeId = 3;
-        $baseLatitude = '-22.4';
-        $baseLongitude = '-45.6';
+/*
+        $cidadeId = 3; //brasa
+        $baseLatitude = '-22.4'; //brasa
+        $baseLongitude = '-45.6'; //brasa
+*/
+ // -23.968355398768285, -46.31950309285193  guaruja
+        $cidadeId = 3; //brasa
+        $baseLatitude = '-22.4'; //brasa
+        $baseLongitude = '-45.6'; //brasa
+
+
 
         $aventuras = ['Legal','Muito Legal','Imperdível','Emocionante'];
         $nomeServico = "Aventura ";
         $descricao_curta = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-        $atrativos =  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'; 
-        $duracao = rand(1,3).'h';   
+        $atrativos =  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+
         $itens_fornecidos = "item 1, item 2, item 3...";
         $itens_obrigatorios = "item obrigatório 1, item obrigatório 2";
-        $horario = rand(9,16).'h';
+
         $endereco = "Rua x, 345 - Vila Maria";
         $ponto_encontro = "Avenida Y, 321 - Centro";
-        $valor = rand(1,9).'000';
-        
+
+
 
         for($i=0;$i<15;$i++) {
+
+
 
           $novoServico = new Servico();
           $idSubCategoria = rand(2,16);
@@ -170,19 +186,20 @@ public function update($id,Request $request){
           $novoServico->nome = $nomeServico.$aventuras[rand(0,3)];
           $novoServico->descricao_curta = $descricao_curta;
           $novoServico->stars = rand(3, 4).'.'.rand(0, 9);
-          $novoServico->destaque = false;
+
           $novoServico->latitude =  $baseLatitude.rand(0,9).'30907';
           $novoServico->longitude = $baseLongitude.rand(0,9).'82795';
 
           $novoServico->atrativos = $atrativos;
-          $novoServico->duracao = $duracao;
+          $novoServico->duracao = rand(1,3).'h';
           $novoServico->itens_fornecidos = $itens_fornecidos;
           $novoServico->itens_obrigatorios = $itens_obrigatorios;
-          $novoServico->horario = $horario;
+          $novoServico->horario = rand(9,16).'h';
           $novoServico->endereco = $endereco;
           $novoServico->ponto_encontro = $ponto_encontro;
-          $novoServico->valor = $valor;
-
+          $novoServico->valor = rand(1,9).'000';
+          //$destaque = rand(1,4);
+          $novoServico->destaque = rand(1,4)===4 ? true : false;
           $novoServico->save();
 
         }

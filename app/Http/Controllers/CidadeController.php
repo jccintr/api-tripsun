@@ -8,6 +8,7 @@ use App\Models\Categoria;
 use App\Models\Subcategoria;
 use App\Models\Prestador;
 use App\Models\Servico;
+use App\Models\Imagens;
 use Illuminate\Support\Facades\Storage;
 
 class CidadeController extends Controller
@@ -21,7 +22,8 @@ class CidadeController extends Controller
 //********************************************************
       public function list()
       {
-          $cidades = $this->cidades->get();
+          //$cidades = $this->cidades->get();
+          $cidades = Cidade::orderBy('nome')->get();
           return response()->json($cidades->values()->all(),200);
       }
 //********************************************************
@@ -74,18 +76,20 @@ class CidadeController extends Controller
                 if (!in_array($findCat, $cat)) {
                     array_push($cat,$findCat);
                  }
-                 if (!in_array($findSubcat, $subcat)) {
+                if (!in_array($findSubcat, $subcat)) {
                     array_push($subcat,$findSubcat);
                 }
           $servicoLatitude = (float)$servico['latitude'];
           $servicoLongitude = (float)$servico['longitude'];
-
+          //pega as imagens do serviço
+          $servico['imagens'] = Imagens::where('servico_id',$servico['id'])->get();
+          
           $servico['imagem'] = $findSubcat['imagem'];
           $servico['marcador'] = $findSubcat['marcador'];
           $servico['distancia'] =  round(sqrt(pow(69.1 * ($servicoLatitude - $lat), 2) + pow(69.1 * ($lng - $servicoLongitude) * cos($servicoLatitude / 57.3), 2)),1);
+          $servico['valor'] = $servico['valor'] / 100;
 
-
-          $servico['preco'] = rand(3,9).rand(0,9).',00';
+          //$servico['preco'] = rand(3,9).rand(0,9).',00';
           }
 
           $cidade['subcategorias']=$subcat;

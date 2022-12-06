@@ -20,7 +20,8 @@ class SubcategoriaController extends Controller
   public function list()
   {
 
-    $subcategorias = $this->subcategorias->get();
+  //  $subcategorias = $this->subcategorias->get();
+    $subcategorias = Subcategoria::orderBy('nome')->get();
     foreach ($subcategorias as $subcategoria) {
         $categoria = Categoria::find($subcategoria['categoria_id']);
         $subcategoria['nome_categoria'] = $categoria['nome'];

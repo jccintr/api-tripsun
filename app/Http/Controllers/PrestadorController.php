@@ -18,7 +18,8 @@ class PrestadorController extends Controller
 //===========================================================
   public function list()
   {
-      $prestadores = $this->prestadores->get();
+    //  $prestadores = $this->prestadores->get();
+      $prestadores = Prestador::orderBy('nome')->get();
         foreach ($prestadores as $prestador) {
           $cidade = Cidade::find($prestador['cidade_id']);
           $prestador['nome_cidade'] = $cidade['nome'];

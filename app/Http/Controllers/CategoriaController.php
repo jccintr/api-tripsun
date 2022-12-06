@@ -18,9 +18,10 @@ class CategoriaController extends Controller
 //===========================================================
   public function list()
   {
-      $categorias = $this->categorias->get();
+      //$categorias = $this->categorias->get();
+      $categorias = Categoria::orderBy('nome')->get();
       //$categorias_ordenado = $categorias->sortBy('nome');
-      return response()->json($categorias->values()->all(),200);
+      return response()->json($categorias,200);
   }
 //============================================================
 // Adiciona uma categoria POST
